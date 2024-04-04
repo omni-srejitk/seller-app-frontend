@@ -5,7 +5,11 @@ import { NavLink, useNavigate } from "react-router-dom";
 import ErrorMessage from "../../Shared/ErrorMessage";
 import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
-import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
+import {
+  loadCaptchaEnginge,
+  LoadCanvasTemplate,
+  validateCaptcha,
+} from "react-simple-captcha";
 import { AddCookie, getValueFromCookie } from "../../../utils/cookies";
 import { postCall } from "../../../Api/axios";
 import cogoToast from "cogo-toast";
@@ -36,7 +40,7 @@ export default function Login() {
     password_error: "",
     captcha_error: "",
   });
-  const [captchaVal, setCaptchaVal] = useState('');
+  const [captchaVal, setCaptchaVal] = useState("");
   const [enableCaptcha, setEnableCaptcha] = useState(false);
 
   // use this function to check the email
@@ -70,7 +74,7 @@ export default function Login() {
         ...inlineError,
         captcha_error: "Captcha does not match",
       }));
-      return
+      return;
     }
     const url = "/api/v1/auth/login";
     try {
@@ -78,8 +82,8 @@ export default function Login() {
       handleRedirect(res.data.access_token, res.data.user);
     } catch (error) {
       cogoToast.error(error.response.data.error);
-      setEnableCaptcha(true)
-      loadCaptchaEnginge(6)
+      setEnableCaptcha(true);
+      loadCaptchaEnginge(6);
     }
   };
 
@@ -97,18 +101,18 @@ export default function Login() {
   }, []);
 
   useEffect(() => {
-    if (enableCaptcha) loadCaptchaEnginge(6)
-  }, [enableCaptcha])
+    if (enableCaptcha) loadCaptchaEnginge(6);
+  }, [enableCaptcha]);
 
   const loginForm = (
-    <div className="m-auto w-10/12 md:w-3/4">
+    <div className="m-auto w-10/12 md:w-3/4 border-2">
       <div className="py-1">
         <label
           htmlFor="email"
-          className="text-sm py-2 ml-1 font-medium text-left text-[#606161] inline-block"
+          className="text-sm py-2 ml-1 font-medium text-left text-gray-600 inline-block"
         >
           Email
-          <span className="text-[#FF0000]"> *</span>
+          <span className="text-red-500"> *</span>
         </label>
         <CssTextField
           id={
@@ -176,7 +180,9 @@ export default function Login() {
       )}
       {enableCaptcha && (
         <>
-          <div className="py-1"><LoadCanvasTemplate /></div>
+          <div className="py-1">
+            <LoadCanvasTemplate />
+          </div>
           <div className="py-1">
             <CssTextField
               required
